@@ -1,0 +1,23 @@
+services:
+  
+  mysql:  # Define el servicio de la base de datos MySQL
+    image: mariadb  # Usa la imagen de MariaDB, un fork de MySQL
+    container_name: mysql  # Nombre del contenedor para el servicio MySQL
+    hostname: mysql  # Nombre de host dentro de la red del contenedor
+    volumes:
+      - ./mysql:/var/lib/mysql  # Monta el directorio local ./mysql al directorio de datos de MySQL dentro del contenedor
+    env_file:
+      - ./mysql.env  # Archivo de configuración de variables de entorno para MySQL
+    restart: unless-stopped  # Reinicia el contenedor a menos que se detenga explícitamente
+
+  glpi:  # Define el servicio de GLPI (una aplicación de gestión de recursos)
+    image: diouxx/glpi  # Usa la imagen de GLPI mantenida por diouxx
+    container_name: glpi  # Nombre del contenedor para el servicio GLPI
+    hostname: glpi  # Nombre de host dentro de la red del contenedor
+    ports:
+      - "8200:80"  # Mapea el puerto 80 del contenedor al puerto 8200 del host
+    volumes:
+      - ./glpi/:/var/www/html/glpi  # Monta el directorio local ./glpi al directorio de la aplicación GLPI dentro del contenedor
+    environment:
+      - TIMEZONE=America/Bogota  # Configura la zona horaria del contenedor
+    restart: unless-stopped  # Reinicia el contenedor a menos que se detenga explícitamente
