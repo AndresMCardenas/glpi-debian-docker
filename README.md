@@ -1,23 +1,38 @@
 # GLPI con Docker compose
 
-*Paso 1* clonar este repositorio
+*Paso 1* 
 
-*Paso 2* 
-Se debe esta en modo rut y se procede a instalar docker y docker-compose con los siguientes comandos
+Actualizar repositorios y dependencias
 
 apt-get update
 
 apt-get upgrade
 
-apt-get install curl wget
+*Paso 2*
+
+se instalan paquetes necesarios
+
+apt-get install curl wget git gpg
+
+clonar este repositorio
+
+*Paso 3* 
+
+clonar este repositorio
+
+git clone https://github.com/AndresMCardenas/glpi-debian-docker.git
+
+*Paso 4* 
+
+Se debe esta en modo rut y se procede a instalar docker y docker-compose con los siguientes comandos
 
 apt-get install ca-certificates curl
 
 install -m 0755 -d /etc/apt/keyrings
 
-curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-chmod a+r /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.gpg
 
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
@@ -31,8 +46,15 @@ curl -L "https://github.com/docker/compose/releases/latest/download/docker-compo
 
 chmod +x /usr/local/bin/docker-compose
 
-*Paso 3* 
+*Paso 5*
+
 se continua con el la instalacion de GLPI usando el archivo docker-compose y en mysql.env del repositorio ejecuntando el siguente comandos
+
+nos movemos a la carpeta del repositorio
+
+cd glpi-debian-docker
+
+se levanta el contenedor y los servicios
 
 docker compose up -d
 
@@ -40,7 +62,7 @@ ya se puede acceder desde la ip del servidor y en el puerto configurado en el ar
 
 ### Configurando GLPI
 
-*Paso 4*
+*Paso 6*
 accediendo a GLPI y congiruando la base de datos 
 host: mysql, usuario: glpi, contraseña: glpi
 
